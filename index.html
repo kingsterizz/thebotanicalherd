@@ -1,9 +1,166 @@
-<style>
-    .horizontal-line {
-        border-top: 2px solid #000;
-        width: 100%;
-        margin: 20px 0;
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>The Botanical Herd</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    /* Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: #f6f8fb;
+      color: #0b3d91;
     }
-</style>
-<h1>The Botanical Herd</h1>
-<div class="horizontal-line"></div>
+
+    header {
+      position: relative;
+      height: 120px;
+      padding: 18px 20px;
+      overflow: visible;
+    }
+
+    /* full-width horizontal bar behind the heading */
+    header::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 64px;                 /* thickness of the bar */
+      background: #0b3d91;          /* dark blue */
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    /* Brand (words stacked vertically at left corner) */
+    .brand {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      z-index: 3;                   /* above the bar */
+    }
+
+    .brand h1 {
+      color: #ffffff;               /* words in white */
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: none;
+    }
+
+    /* each word on its own line */
+    .brand h1 span {
+      display: block;
+      padding: 4px 10px;            /* small padding so text doesn't stick to edge */
+    }
+
+    /* Hamburger (three lines) at the right corner */
+    .menu-toggle {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 44px;
+      height: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      border: none;
+      padding: 6px 0;
+      cursor: pointer;
+      z-index: 4;                   /* above the bar and brand */
+    }
+
+    .menu-toggle:focus { outline: 2px solid rgba(11,61,145,0.25); border-radius: 6px; }
+
+    .menu-toggle span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: #ffffff;          /* white lines to contrast the dark blue bar */
+      border-radius: 2px;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    /* simple nav that appears when hamburger is toggled */
+    nav {
+      position: absolute;
+      right: 18px;
+      top: 72px;
+      background: #ffffff;
+      border-radius: 6px;
+      box-shadow: 0 8px 20px rgba(10,25,60,0.12);
+      overflow: hidden;
+      z-index: 5;
+      display: none;
+    }
+
+    nav a {
+      display: block;
+      padding: 10px 18px;
+      color: #0b3d91;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav a:hover { background: #f0f6ff; }
+
+    /* hamburger animation (optional) */
+    .menu-toggle.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    /* responsive adjustments */
+    @media (max-width: 480px) {
+      header { height: 110px; padding: 14px; }
+      header::before { height: 52px; }
+      .brand h1 { font-size: 20px; }
+      .menu-toggle { right: 14px; top: 14px; }
+      nav { top: 64px; right: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-hidden="false">
+      <h1>
+        <span>The</span>
+        <span>Botanical</span>
+        <span>Herd</span>
+      </h1>
+    </div>
+
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMenu(this)">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="menu" aria-hidden="true">
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <script>
+    function toggleMenu(btn) {
+      const nav = document.getElementById('menu');
+      const isOpen = btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        nav.style.display = 'block';
+        nav.setAttribute('aria-hidden','false');
+      } else {
+        nav.style.display = 'none';
+        nav.setAttribute('aria-hidden','true');
+      }
+    }
+  </script>
+</body>
+</html>
