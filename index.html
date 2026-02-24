@@ -22,18 +22,21 @@
     }
 
     /* full-width horizontal bar behind the heading */
-    header::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 64px;                 /* thickness of the bar */
-      background: #0b3d91;          /* dark blue */
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 1;
-    }
+   header::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 120px; /* adjust to cover stacked words */
+  z-index: 1;
 
+  /* change PATH/TO/IMAGE.jpg to your file path, e.g. 'images/header-bg.jpg' or 'header-bg.jpg' */
+  background:
+    linear-gradient(rgba(7,33,70,0.6), rgba(7,33,70,0.6)),
+    url('PATH/TO/onion.jpg') center/cover no-repeat;
+}
     /* Brand (words stacked vertically at left corner) */
     .brand {
       position: absolute;
