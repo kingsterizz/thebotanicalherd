@@ -1,167 +1,674 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>The Botanical Herd</title>
+  <title>The Botanical Herd - Biology Learning Hub</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Learn biology through interactive resources, articles, and educational content about plants, animals, and ecosystems.">
   <style>
     /* Reset */
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: #f6f8fb;
       color: #0b3d91;
+      line-height: 1.6;
     }
 
+    /* Header & Navigation */
     header {
       position: relative;
-      height: 120px;
       padding: 18px 20px;
-      overflow: visible;
+      background: linear-gradient(135deg, rgba(7,33,70,0.9), rgba(25,80,120,0.85)), url('header-bg.jpg') center/cover no-repeat;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 100;
     }
 
-    /* full-width horizontal bar behind the heading */
-   header::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 120px; /* change if you need thicker/thinner bar */
-  z-index: 1;
-  background:
-    linear-gradient(rgba(7,33,70,0.6), rgba(7,33,70,0.6)),
-    url('onion.jpg') center/cover no-repeat;
-}
-    /* Brand (words stacked vertically at left corner) */
     .brand {
-      position: absolute;
-      left: 18px;
-      top: 18px;
-      z-index: 3;                   /* above the bar */
+      position: relative;
+      z-index: 3;
+      margin-bottom: 10px;
     }
 
     .brand h1 {
-      color: #ffffff;               /* words in white */
-      font-size: 28px;
-      line-height: 1;
+      color: #ffffff;
+      font-size: 32px;
       font-weight: 700;
-      letter-spacing: 0.6px;
-      text-transform: none;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* each word on its own line */
-    .brand h1 span {
-      display: block;
-      padding: 4px 10px;            /* small padding so text doesn't stick to edge */
+    .brand .logo-icon {
+      font-size: 36px;
     }
 
-    /* Hamburger (three lines) at the right corner */
+    .brand p {
+      color: #e0f0ff;
+      font-size: 14px;
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    /* Hamburger Menu */
     .menu-toggle {
-      position: absolute;
-      right: 18px;
-      top: 18px;
+      position: fixed;
+      right: 20px;
+      top: 20px;
       width: 44px;
       height: 36px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      align-items: center;
       background: transparent;
       border: none;
       padding: 6px 0;
       cursor: pointer;
-      z-index: 4;                   /* above the bar and brand */
+      z-index: 105;
     }
 
-    .menu-toggle:focus { outline: 2px solid rgba(11,61,145,0.25); border-radius: 6px; }
+    .menu-toggle:focus { outline: 2px solid rgba(255,255,255,0.5); border-radius: 6px; }
 
     .menu-toggle span {
       display: block;
       width: 28px;
       height: 3px;
-      background: #ffffff;          /* white lines to contrast the dark blue bar */
+      background: #ffffff;
       border-radius: 2px;
       transition: transform 180ms ease, opacity 180ms ease;
     }
 
-    /* simple nav that appears when hamburger is toggled */
+    .menu-toggle.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    /* Navigation Menu */
     nav {
-      position: absolute;
-      right: 18px;
-      top: 72px;
-      background: #ffffff;
-      border-radius: 6px;
-      box-shadow: 0 8px 20px rgba(10,25,60,0.12);
-      overflow: hidden;
-      z-index: 5;
-      display: none;
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: 280px;
+      background: linear-gradient(180deg, #0b3d91 0%, #1a5a9f 100%);
+      box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+      overflow-y: auto;
+      z-index: 104;
+      transform: translateX(100%);
+      transition: transform 300ms ease;
+      padding-top: 80px;
+    }
+
+    nav.open {
+      transform: translateX(0);
     }
 
     nav a {
       display: block;
-      padding: 10px 18px;
-      color: #0b3d91;
+      padding: 14px 20px;
+      color: #ffffff;
       text-decoration: none;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: all 200ms ease;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.1);
+      border-left-color: #4dd0e1;
+      padding-left: 24px;
+    }
+
+    /* Mobile overlay */
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 103;
+      display: none;
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    .nav-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Main Content */
+    main {
+      min-height: calc(100vh - 80px);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #0b3d91 0%, #1a5a9f 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      opacity: 0.95;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #4dd0e1;
+      color: #0b3d91;
+      padding: 12px 32px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 200ms ease;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .cta-button:hover {
+      background: #80deea;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(77,208,225,0.3);
+    }
+
+    /* Section Heading */
+    section {
+      padding: 50px 20px;
+    }
+
+    section h2 {
+      font-size: 36px;
+      margin-bottom: 40px;
+      color: #0b3d91;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    section h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: #4dd0e1;
+      border-radius: 2px;
+    }
+
+    /* Category Grid */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(11,61,145,0.08);
+      transition: all 250ms ease;
+      cursor: pointer;
+    }
+
+    .category-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 28px rgba(11,61,145,0.15);
+    }
+
+    .card-image-placeholder {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      color: rgba(11,61,145,0.3);
+    }
+
+    .card-content {
+      padding: 24px;
+    }
+
+    .card-content h3 {
+      font-size: 20px;
+      color: #0b3d91;
+      margin-bottom: 10px;
       font-weight: 600;
     }
 
-    nav a:hover { background: #f0f6ff; }
+    .card-content p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
 
-    /* hamburger animation (optional) */
-    .menu-toggle.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-    .menu-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .menu-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+    .card-link {
+      display: inline-block;
+      color: #4dd0e1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 200ms ease;
+    }
 
-    /* responsive adjustments */
+    .card-link:hover {
+      color: #0b3d91;
+      margin-right: -4px;
+    }
+
+    .card-link::after {
+      content: " →";
+      transition: transform 200ms ease;
+    }
+
+    /* Topics List */
+    .topics-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      background: #f0f6ff;
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    .topic-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #4dd0e1;
+      box-shadow: 0 2px 8px rgba(11,61,145,0.05);
+    }
+
+    .topic-item h4 {
+      color: #0b3d91;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .topic-item p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* Features Section */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .feature h4 {
+      color: #0b3d91;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .feature p {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* Footer */
+    footer {
+      background: #0b3d91;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .footer-links a {
+      color: #4dd0e1;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 200ms ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-text {
+      font-size: 13px;
+      opacity: 0.85;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 32px; }
+      .hero p { font-size: 16px; }
+      section h2 { font-size: 28px; }
+      .category-grid { grid-template-columns: 1fr; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .footer-links { gap: 15px; }
+    }
+
     @media (max-width: 480px) {
-      header { height: 110px; padding: 14px; }
-      header::before { height: 52px; }
-      .brand h1 { font-size: 20px; }
-      .menu-toggle { right: 14px; top: 14px; }
-      nav { top: 64px; right: 14px; }
+      header { padding: 14px; }
+      .brand h1 { font-size: 24px; }
+      .hero { padding: 40px 15px; }
+      .hero h2 { font-size: 24px; }
+      .hero p { font-size: 14px; }
+      section { padding: 30px 15px; }
+      section h2 { font-size: 22px; }
+      .card-image-placeholder { height: 150px; }
+      .features { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <!-- Navigation -->
+  <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+  
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav id="menu" aria-hidden="true">
+    <a href="#home" onclick="closeMenu()">🏠 Home</a>
+    <a href="#categories" onclick="closeMenu()">📚 Learning Modules</a>
+    <a href="#topics" onclick="closeMenu()">🔬 Topics</a>
+    <a href="#features" onclick="closeMenu()">✨ Features</a>
+    <a href="#about" onclick="closeMenu()">ℹ️ About Us</a>
+    <a href="#contact" onclick="closeMenu()">📧 Contact</a>
+  </nav>
+
+  <!-- Header -->
   <header>
-    <div class="brand" aria-hidden="false">
+    <div class="brand">
       <h1>
-        <span>The</span>
-        <span>Botanical</span>
-        <span>Herd</span>
+        <span class="logo-icon">🌿</span>
+        The Botanical Herd
       </h1>
+      <p>Interactive Biology Learning Hub</p>
     </div>
-
-    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMenu(this)">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <nav id="menu" aria-hidden="true">
-      <a href="#">Home</a>
-      <a href="#">Services</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
   </header>
 
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container">
+        <h2>Discover the World of Biology</h2>
+        <p>Explore plants, animals, ecosystems, and the fascinating science of life. Learn biology through interactive resources, detailed articles, and visual guides.</p>
+        <button class="cta-button" onclick="document.getElementById('categories').scrollIntoView()">Start Learning</button>
+      </div>
+    </section>
+
+    <!-- Learning Categories -->
+    <section id="categories">
+      <div class="container">
+        <h2>Learning Modules</h2>
+        <div class="category-grid">
+          <!-- Botany -->
+          <div class="category-card">
+            <div class="card-image-placeholder">🌱</div>
+            <div class="card-content">
+              <h3>Botany</h3>
+              <p>Study plant structure, classification, photosynthesis, reproduction, and the diversity of the plant kingdom.</p>
+              <a href="#" class="card-link">Explore Botany</a>
+            </div>
+          </div>
+
+          <!-- Zoology -->
+          <div class="category-card">
+            <div class="card-image-placeholder">🦁</div>
+            <div class="card-content">
+              <h3>Zoology</h3>
+              <p>Learn about animal behavior, anatomy, classification, adaptation, and the incredible diversity of fauna.</p>
+              <a href="#" class="card-link">Explore Zoology</a>
+            </div>
+          </div>
+
+          <!-- Ecology -->
+          <div class="category-card">
+            <div class="card-image-placeholder">🌍</div>
+            <div class="card-content">
+              <h3>Ecology</h3>
+              <p>Understand ecosystems, food webs, biodiversity, conservation, and the relationships within nature.</p>
+              <a href="#" class="card-link">Explore Ecology</a>
+            </div>
+          </div>
+
+          <!-- Cell Biology -->
+          <div class="category-card">
+            <div class="card-image-placeholder">🔬</div>
+            <div class="card-content">
+              <h3>Cell Biology</h3>
+              <p>Dive into cell structure, function, organelles, mitosis, and the microscopic foundation of all life.</p>
+              <a href="#" class="card-link">Explore Cell Biology</a>
+            </div>
+          </div>
+
+          <!-- Genetics -->
+          <div class="category-card">
+            <div class="card-image-placeholder">🧬</div>
+            <div class="card-content">
+              <h3>Genetics</h3>
+              <p>Explore DNA, heredity, inheritance patterns, evolution, and the molecular basis of life.</p>
+              <a href="#" class="card-link">Explore Genetics</a>
+            </div>
+          </div>
+
+          <!-- Human Biology -->
+          <div class="category-card">
+            <div class="card-image-placeholder">🧠</div>
+            <div class="card-content">
+              <h3>Human Biology</h3>
+              <p>Study human systems: nervous, circulatory, respiratory, digestive, and endocrine systems.</p>
+              <a href="#" class="card-link">Explore Human Biology</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Topics Section -->
+    <section id="topics">
+      <div class="container">
+        <h2>Featured Topics</h2>
+        <div class="topics-list">
+          <div class="topic-item">
+            <h4>Photosynthesis</h4>
+            <p>How plants convert sunlight into chemical energy and produce oxygen for life.</p>
+          </div>
+          <div class="topic-item">
+            <h4>Evolution</h4>
+            <p>Understanding natural selection, adaptation, and the tree of life.</p>
+          </div>
+          <div class="topic-item">
+            <h4>Biodiversity</h4>
+            <p>Exploring species variety and the importance of ecosystem health.</p>
+          </div>
+          <div class="topic-item">
+            <h4>Ecosystems</h4>
+            <p>How organisms interact and energy flows through food chains.</p>
+          </div>
+          <div class="topic-item">
+            <h4>Classification</h4>
+            <p>Taxonomy system for organizing and categorizing all living things.</p>
+          </div>
+          <div class="topic-item">
+            <h4>Respiration</h4>
+            <p>How cells break down nutrients to release energy for life processes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+      <div class="container">
+        <h2>Why Learn With Us</h2>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">📖</div>
+            <h4>Comprehensive Content</h4>
+            <p>In-depth articles covering all biology topics from basics to advanced.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🖼️</div>
+            <h4>Visual Learning</h4>
+            <p>Diagrams, infographics, and images to aid understanding.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <h4>Structured Learning</h4>
+            <p>Organized modules to build knowledge progressively.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">✅</div>
+            <h4>Interactive Quizzes</h4>
+            <p>Test your knowledge and track your progress.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📱</div>
+            <h4>Mobile Friendly</h4>
+            <p>Learn anywhere, anytime on any device.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🔄</div>
+            <h4>Regularly Updated</h4>
+            <p>Fresh content and latest discoveries in biology.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="container">
+        <h2>About The Botanical Herd</h2>
+        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 800px; margin: 0 auto;">
+          <p style="color: #666; margin-bottom: 15px; line-height: 1.8;">
+            The Botanical Herd is an educational platform dedicated to making biology accessible, engaging, and fun for learners of all levels. Whether you're a student preparing for exams, an educator seeking teaching resources, or a biology enthusiast, we provide comprehensive learning materials.
+          </p>
+          <p style="color: #666; line-height: 1.8;">
+            Our mission is to foster a deeper understanding and appreciation for the living world around us, from the tiniest cells to entire ecosystems.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background: #f0f6ff;">
+      <div class="container">
+        <h2>Get In Touch</h2>
+        <div style="background: white; padding: 40px; border-radius: 12px; max-width: 500px; margin: 0 auto; text-align: center;">
+          <p style="color: #666; margin-bottom: 20px;">Have questions or suggestions? We'd love to hear from you!</p>
+          <button class="cta-button">📧 Contact Us</button>
+          <p style="color: #999; font-size: 13px; margin-top: 20px;">Email • Phone • Social Media</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#categories">Learning Modules</a>
+        <a href="#topics">Topics</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+      <div class="footer-text">
+        <p>&copy; 2026 The Botanical Herd. All rights reserved. | Educational Biology Learning Platform</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
   <script>
-    function toggleMenu(btn) {
-      const nav = document.getElementById('menu');
-      const isOpen = btn.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(isOpen));
-      if (isOpen) {
-        nav.style.display = 'block';
-        nav.setAttribute('aria-hidden','false');
-      } else {
-        nav.style.display = 'none';
-        nav.setAttribute('aria-hidden','true');
-      }
+    const menuToggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('menu');
+    const navOverlay = document.getElementById('navOverlay');
+
+    menuToggle.addEventListener('click', function() {
+      const isOpen = menuToggle.classList.toggle('open');
+      menu.classList.toggle('open', isOpen);
+      navOverlay.classList.toggle('open', isOpen);
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menu.setAttribute('aria-hidden', String(!isOpen));
+    });
+
+    function closeMenu() {
+      menuToggle.classList.remove('open');
+      menu.classList.remove('open');
+      navOverlay.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
     }
+
+    // Close menu when pressing Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    // Close menu when clicking overlay
+    navOverlay.addEventListener('click', closeMenu);
   </script>
 </body>
 </html>
