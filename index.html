@@ -351,6 +351,102 @@
       color: #666;
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 200;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 300ms ease;
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      animation: slideIn 300ms ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #4dd0e1;
+      padding-bottom: 15px;
+    }
+
+    .modal-header h2 {
+      color: #0b3d91;
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #0b3d91;
+      transition: color 200ms ease;
+    }
+
+    .close-btn:hover {
+      color: #4dd0e1;
+    }
+
+    .modal-body {
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .modal-body h3 {
+      color: #0b3d91;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .modal-body ul {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .modal-body li {
+      margin-bottom: 8px;
+    }
+
     /* Footer */
     footer {
       background: #0b3d91;
@@ -398,6 +494,7 @@
       .category-grid { grid-template-columns: 1fr; }
       .features { grid-template-columns: repeat(2, 1fr); }
       .footer-links { gap: 15px; }
+      .modal-content { width: 95%; padding: 30px; }
     }
 
     @media (max-width: 480px) {
@@ -410,6 +507,7 @@
       section h2 { font-size: 22px; }
       .card-image-placeholder { height: 150px; }
       .features { grid-template-columns: 1fr; }
+      .modal-content { width: 95%; padding: 20px; }
     }
   </style>
 </head>
@@ -460,62 +558,62 @@
         <h2>Learning Modules</h2>
         <div class="category-grid">
           <!-- Botany -->
-          <div class="category-card">
+          <div class="category-card" onclick="openModal('botany')">
             <div class="card-image-placeholder">🌱</div>
             <div class="card-content">
               <h3>Botany</h3>
               <p>Study plant structure, classification, photosynthesis, reproduction, and the diversity of the plant kingdom.</p>
-              <a href="#" class="card-link">Explore Botany</a>
+              <a href="#" class="card-link" onclick="event.stopPropagation();">Explore Botany</a>
             </div>
           </div>
 
           <!-- Zoology -->
-          <div class="category-card">
+          <div class="category-card" onclick="openModal('zoology')">
             <div class="card-image-placeholder">🦁</div>
             <div class="card-content">
               <h3>Zoology</h3>
               <p>Learn about animal behavior, anatomy, classification, adaptation, and the incredible diversity of fauna.</p>
-              <a href="#" class="card-link">Explore Zoology</a>
+              <a href="#" class="card-link" onclick="event.stopPropagation();">Explore Zoology</a>
             </div>
           </div>
 
           <!-- Ecology -->
-          <div class="category-card">
+          <div class="category-card" onclick="openModal('ecology')">
             <div class="card-image-placeholder">🌍</div>
             <div class="card-content">
               <h3>Ecology</h3>
               <p>Understand ecosystems, food webs, biodiversity, conservation, and the relationships within nature.</p>
-              <a href="#" class="card-link">Explore Ecology</a>
+              <a href="#" class="card-link" onclick="event.stopPropagation();">Explore Ecology</a>
             </div>
           </div>
 
           <!-- Cell Biology -->
-          <div class="category-card">
+          <div class="category-card" onclick="openModal('cellbiology')">
             <div class="card-image-placeholder">🔬</div>
             <div class="card-content">
               <h3>Cell Biology</h3>
               <p>Dive into cell structure, function, organelles, mitosis, and the microscopic foundation of all life.</p>
-              <a href="#" class="card-link">Explore Cell Biology</a>
+              <a href="#" class="card-link" onclick="event.stopPropagation();">Explore Cell Biology</a>
             </div>
           </div>
 
           <!-- Genetics -->
-          <div class="category-card">
+          <div class="category-card" onclick="openModal('genetics')">
             <div class="card-image-placeholder">🧬</div>
             <div class="card-content">
               <h3>Genetics</h3>
               <p>Explore DNA, heredity, inheritance patterns, evolution, and the molecular basis of life.</p>
-              <a href="#" class="card-link">Explore Genetics</a>
+              <a href="#" class="card-link" onclick="event.stopPropagation();">Explore Genetics</a>
             </div>
           </div>
 
           <!-- Human Biology -->
-          <div class="category-card">
+          <div class="category-card" onclick="openModal('humanbiology')">
             <div class="card-image-placeholder">🧠</div>
             <div class="card-content">
               <h3>Human Biology</h3>
               <p>Study human systems: nervous, circulatory, respiratory, digestive, and endocrine systems.</p>
-              <a href="#" class="card-link">Explore Human Biology</a>
+              <a href="#" class="card-link" onclick="event.stopPropagation();">Explore Human Biology</a>
             </div>
           </div>
         </div>
@@ -600,7 +698,7 @@
         <h2>About The Botanical Herd</h2>
         <div style="background: white; padding: 30px; border-radius: 12px; max-width: 800px; margin: 0 auto;">
           <p style="color: #666; margin-bottom: 15px; line-height: 1.8;">
-            The Botanical Herd is an educational platform dedicated to making biology accessible, engaging, and fun for learners of all levels. Whether you're a student preparing for exams, an educator seeking teaching resources, or a biology enthusiast, we provide comprehensive learning materials.
+            The Botanical Herd is an educational platform dedicated to making biology accessible, engaging, and fun for learners of all levels. Whether you're a student preparing for exams, an educator seeking resources, or simply curious about the natural world, we have something for you.
           </p>
           <p style="color: #666; line-height: 1.8;">
             Our mission is to foster a deeper understanding and appreciation for the living world around us, from the tiniest cells to entire ecosystems.
@@ -621,6 +719,268 @@
       </div>
     </section>
   </main>
+
+  <!-- Modals for each category -->
+  <div id="botanyModal" class="modal" onclick="closeModalOnOverlay(event, 'botanyModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🌱 Botany Notes</h2>
+        <button class="close-btn" onclick="closeModal('botany')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>Plant Structure</h3>
+        <ul>
+          <li>Plants consist of roots, stems, and leaves</li>
+          <li>Roots absorb water and nutrients from soil</li>
+          <li>Stems transport resources and provide support</li>
+          <li>Leaves are the primary site of photosynthesis</li>
+        </ul>
+
+        <h3>Photosynthesis</h3>
+        <ul>
+          <li>Process: Light energy + H₂O + CO₂ → Glucose + O₂</li>
+          <li>Occurs in chloroplasts within leaf cells</li>
+          <li>Light-dependent reactions occur in thylakoids</li>
+          <li>Light-independent reactions (Calvin Cycle) occur in stroma</li>
+        </ul>
+
+        <h3>Plant Classification</h3>
+        <ul>
+          <li>Non-vascular plants: Mosses and liverworts</li>
+          <li>Seedless vascular plants: Ferns</li>
+          <li>Seed plants: Gymnosperms and Angiosperms</li>
+          <li>Angiosperms are the most diverse group (flowering plants)</li>
+        </ul>
+
+        <h3>Plant Reproduction</h3>
+        <ul>
+          <li>Asexual: Vegetative reproduction (runners, bulbs, fragmentation)</li>
+          <li>Sexual: Production of seeds through pollination and fertilization</li>
+          <li>Double fertilization in angiosperms</li>
+          <li>Seeds contain embryo and stored nutrients</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="zoologyModal" class="modal" onclick="closeModalOnOverlay(event, 'zoologyModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🦁 Zoology Notes</h2>
+        <button class="close-btn" onclick="closeModal('zoology')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>Animal Classification</h3>
+        <ul>
+          <li>Invertebrates: Over 97% of animal species (insects, worms, mollusks)</li>
+          <li>Vertebrates: Fish, amphibians, reptiles, birds, mammals</li>
+          <li>Vertebrates share backbone/spine and internal skeleton</li>
+          <li>Each group has unique adaptations for their environment</li>
+        </ul>
+
+        <h3>Animal Anatomy</h3>
+        <ul>
+          <li>Body systems: Skeletal, muscular, nervous, circulatory, digestive</li>
+          <li>Endocrine and reproductive systems</li>
+          <li>Homeostasis maintained through organ system coordination</li>
+          <li>Adaptation structures vary by species and environment</li>
+        </ul>
+
+        <h3>Animal Behavior</h3>
+        <ul>
+          <li>Instinctive behavior: Fixed responses (migration, nesting)</li>
+          <li>Learned behavior: Acquired through experience</li>
+          <li>Social behavior: Cooperation, competition, communication</li>
+          <li>Territorial and reproductive displays</li>
+        </ul>
+
+        <h3>Adaptations</h3>
+        <ul>
+          <li>Structural: Physical features for survival (camouflage, wings, claws)</li>
+          <li>Behavioral: Actions that aid survival (hibernation, hunting)</li>
+          <li>Physiological: Internal processes (temperature regulation, metabolism)</li>
+          <li>Result of natural selection over many generations</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="ecologyModal" class="modal" onclick="closeModalOnOverlay(event, 'ecologyModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🌍 Ecology Notes</h2>
+        <button class="close-btn" onclick="closeModal('ecology')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>Ecosystems</h3>
+        <ul>
+          <li>Community of organisms + their physical environment</li>
+          <li>Biotic factors: Living organisms</li>
+          <li>Abiotic factors: Non-living environment (temperature, light, water)</li>
+          <li>Energy flows and nutrients cycle through ecosystems</li>
+        </ul>
+
+        <h3>Food Chains & Webs</h3>
+        <ul>
+          <li>Producer → Primary Consumer → Secondary Consumer → Tertiary Consumer</li>
+          <li>Decomposers break down dead matter</li>
+          <li>Energy decreases at each trophic level (~10% rule)</li>
+          <li>Complex food webs show multiple feeding relationships</li>
+        </ul>
+
+        <h3>Biodiversity</h3>
+        <ul>
+          <li>Genetic diversity: Variation within species</li>
+          <li>Species diversity: Number of different species</li>
+          <li>Ecosystem diversity: Variety of habitats and ecosystems</li>
+          <li>High biodiversity increases ecosystem stability and resilience</li>
+        </ul>
+
+        <h3>Conservation</h3>
+        <ul>
+          <li>Habitat preservation and restoration</li>
+          <li>Species protection and recovery programs</li>
+          <li>Sustainable resource management</li>
+          <li>Reducing pollution and greenhouse gas emissions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="cellbiologyModal" class="modal" onclick="closeModalOnOverlay(event, 'cellbiologyModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🔬 Cell Biology Notes</h2>
+        <button class="close-btn" onclick="closeModal('cellbiology')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>Cell Structure</h3>
+        <ul>
+          <li>Prokaryotes: Bacteria, no nucleus (single-celled)</li>
+          <li>Eukaryotes: Nucleus + organelles (animals and plants)</li>
+          <li>Cell membrane: Selectively permeable boundary</li>
+          <li>Nucleus: Contains DNA and controls cell activities</li>
+        </ul>
+
+        <h3>Organelles</h3>
+        <ul>
+          <li>Mitochondria: ATP production (energy)</li>
+          <li>Chloroplasts: Photosynthesis in plant cells</li>
+          <li>Endoplasmic reticulum: Protein/lipid synthesis</li>
+          <li>Golgi apparatus: Packaging and transport</li>
+          <li>Lysosomes: Cellular digestion and waste</li>
+        </ul>
+
+        <h3>Cell Division</h3>
+        <ul>
+          <li>Mitosis: Produces two identical daughter cells (growth, repair)</li>
+          <li>Meiosis: Produces four haploid gametes (sexual reproduction)</li>
+          <li>Interphase: DNA replication and growth</li>
+          <li>Prophase, Metaphase, Anaphase, Telophase: Mitotic stages</li>
+        </ul>
+
+        <h3>Cellular Transport</h3>
+        <ul>
+          <li>Diffusion: Movement from high to low concentration</li>
+          <li>Osmosis: Water movement across membrane</li>
+          <li>Active transport: Requires energy (ATP)</li>
+          <li>Endocytosis and exocytosis: Bulk transport</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="geneticsModal" class="modal" onclick="closeModalOnOverlay(event, 'geneticsModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🧬 Genetics Notes</h2>
+        <button class="close-btn" onclick="closeModal('genetics')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>DNA Structure</h3>
+        <ul>
+          <li>Double helix structure with complementary base pairs</li>
+          <li>Adenine pairs with Thymine (A-T)</li>
+          <li>Guanine pairs with Cytosine (G-C)</li>
+          <li>Sugar-phosphate backbone provides structural support</li>
+        </ul>
+
+        <h3>Gene Expression</h3>
+        <ul>
+          <li>Transcription: DNA → mRNA in nucleus</li>
+          <li>Translation: mRNA → Protein at ribosomes</li>
+          <li>Genetic code: Triplet codons specify amino acids</li>
+          <li>One gene = one protein (usually)</li>
+        </ul>
+
+        <h3>Inheritance Patterns</h3>
+        <ul>
+          <li>Dominant traits: Expressed in heterozygotes</li>
+          <li>Recessive traits: Only in homozygotes</li>
+          <li>Mendelian inheritance: Laws of segregation and assortment</li>
+          <li>Punnett squares predict offspring genotypes</li>
+        </ul>
+
+        <h3>Evolution & Variation</h3>
+        <ul>
+          <li>Mutations: Permanent changes in DNA sequence</li>
+          <li>Natural selection: Organisms with favorable traits reproduce</li>
+          <li>Genetic drift: Random changes in allele frequency</li>
+          <li>Speciation: Populations diverge into separate species</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="humanbiologyModal" class="modal" onclick="closeModalOnOverlay(event, 'humanbiologyModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🧠 Human Biology Notes</h2>
+        <button class="close-btn" onclick="closeModal('humanbiology')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>Nervous System</h3>
+        <ul>
+          <li>Central: Brain and spinal cord</li>
+          <li>Peripheral: Somatic (voluntary) and autonomic (involuntary)</li>
+          <li>Neurons: Cell body, dendrites, axon</li>
+          <li>Synapses: Gaps where neurotransmitters transmit signals</li>
+        </ul>
+
+        <h3>Circulatory System</h3>
+        <ul>
+          <li>Heart: 4 chambers pump blood</li>
+          <li>Arteries: Carry oxygenated blood from heart</li>
+          <li>Veins: Return deoxygenated blood to heart</li>
+          <li>Capillaries: Exchange site for nutrients and gases</li>
+        </ul>
+
+        <h3>Respiratory System</h3>
+        <ul>
+          <li>Nasal passages → Trachea → Bronchi → Lungs</li>
+          <li>Gas exchange: O₂ in, CO₂ out</li>
+          <li>Diaphragm: Main breathing muscle</li>
+          <li>Hemoglobin in RBCs carries oxygen</li>
+        </ul>
+
+        <h3>Digestive System</h3>
+        <ul>
+          <li>Mouth → Esophagus → Stomach → Small intestine → Large intestine</li>
+          <li>Enzymes break down food into absorbable nutrients</li>
+          <li>Small intestine: Primary site of nutrient absorption</li>
+          <li>Pancreas and liver aid digestion</li>
+        </ul>
+
+        <h3>Endocrine System</h3>
+        <ul>
+          <li>Glands produce and release hormones</li>
+          <li>Pituitary: Master gland controlling other glands</li>
+          <li>Thyroid: Metabolism regulation</li>
+          <li>Pancreas: Blood sugar regulation (insulin/glucagon)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -669,6 +1029,60 @@
 
     // Close menu when clicking overlay
     navOverlay.addEventListener('click', closeMenu);
+
+    // Modal functions
+    function openModal(category) {
+      const modalMap = {
+        'botany': 'botanyModal',
+        'zoology': 'zoologyModal',
+        'ecology': 'ecologyModal',
+        'cellbiology': 'cellbiologyModal',
+        'genetics': 'geneticsModal',
+        'humanbiology': 'humanbiologyModal'
+      };
+      
+      const modalId = modalMap[category];
+      if (modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+      }
+    }
+
+    function closeModal(category) {
+      const modalMap = {
+        'botany': 'botanyModal',
+        'zoology': 'zoologyModal',
+        'ecology': 'ecologyModal',
+        'cellbiology': 'cellbiologyModal',
+        'genetics': 'geneticsModal',
+        'humanbiology': 'humanbiologyModal'
+      };
+      
+      const modalId = modalMap[category];
+      if (modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto'; // Restore background scroll
+      }
+    }
+
+    function closeModalOnOverlay(event, modalId) {
+      if (event.target.id === modalId) {
+        event.target.classList.remove('show');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Close modals with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal.show').forEach(modal => {
+          modal.classList.remove('show');
+          document.body.style.overflow = 'auto';
+        });
+      }
+    });
   </script>
 </body>
 </html>
